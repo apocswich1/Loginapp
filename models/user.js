@@ -1,12 +1,34 @@
-var express = require('express')
-var router = express.Router()
+var mongoose = require('mongoose')
+var bcrypt = require('bcryptjs')
 
-router.get('/register',function(req,res){
-    res.render('register')
+mongoose.connect("mongodb://localhost/loginapp");
+
+var db = mongoose.connection;
+
+var UserSchema = mongoose.Schema({
+    username: {
+        type: String,
+        index: true
+    },
+    password: {
+        type: String
+    },
+    email: {
+        type: String
+    },
+    name: {
+        type: String
+    },
+
 })
 
-router.get('/login',function(req,res){
-    res.render('login')
-})
+var User = module.exports = mongoose.model('User',UserSchema);
 
-module.exports = router;
+module.exports.createUser = function(newUser, callback){
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(newUser.password, salt, function(err, hash) {
+            newUser.password = hash;
+            newUser.save(callback);
+        });
+    });
+}
