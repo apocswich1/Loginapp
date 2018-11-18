@@ -26,7 +26,12 @@ router.get('/register', function(req, res){
 
 //login
 router.get('/login', function(req, res){
-    res.render('login')
+    if(req.isAuthenticated()){
+        res.render('index');
+    }else{
+        res.render('login');
+    }
+    //res.render('login')
 })
 
 //login
@@ -113,5 +118,19 @@ router.post('/login',
     res.redirect('/')
   });
 
+//todos
+router.get('/todos', ensureAuthenticated,function(req, res){
+    User.find(function(err,users){
+        if(err) throw err;
+        res.json(users);
+    });
+    //res.redirect("/users/login");
+})
+
+//wrong
+router.get('/*', function(req, res){
+    req.flash('success_msg', "You are wrong");
+    res.redirect("/users/login");
+})
 
 module.exports = router
