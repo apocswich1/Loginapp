@@ -15,6 +15,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        {{#if user}}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -33,7 +34,15 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
+          </ul>
+        {{/if}}
+        {{#if user}}
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/users/logout">Logout</a>
+        </li>
         </ul>
+        {{else}}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="/users/register">Register</a>
@@ -41,10 +50,8 @@
           <li class="nav-item">
             <a class="nav-link" href="/users/login">Login</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/logout">Logout</a>
-          </li>
         </ul>
+        {{/if}}        
       </div>
     </nav>
 
